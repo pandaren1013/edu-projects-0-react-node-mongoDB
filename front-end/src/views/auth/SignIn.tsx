@@ -35,6 +35,7 @@ export default function SignIn() {
         console.log(data);
         localStorage.setItem("auth_token", data.accessToken);
         localStorage.setItem("userId", data.id);
+        // localStorage.setItem("avatar", data.avatar);
         // console.log(localStorage.getItem('userId'));
         auth.signin(data.accessToken, () => {
           console.log('log here');

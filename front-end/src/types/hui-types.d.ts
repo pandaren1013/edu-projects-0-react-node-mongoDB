@@ -30,10 +30,15 @@ declare global{
         website:string;
         company: string;
         phone: string;
-        birthday: string;
+        birthday: string ;
         avatar:string;
         // owner: string;
         // _id: string;
     };
+    interface Todo {
+        id: string;
+        description: string;
+        completed: boolean;
+      };
     
 }

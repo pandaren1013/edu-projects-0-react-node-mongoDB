@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Dropdown from "components/dropdown";
 import { FiAlignJustify } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -10,16 +10,46 @@ import {
   IoMdNotificationsOutline,
   IoMdInformationCircleOutline,
 } from "react-icons/io";
-import avatar from "assets/img/avatars/avatar7.png";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "redux/store";
+import { updateUser, getCurrentUser } from "services/profile.service";
+
+// import avatar from "assets/img/avatars/avatar7.png";
 
 const Navbar = (props: {
   onOpenSidenav: () => void;
   brandText: string;
   secondary?: boolean | string;
 }) => {
+  const todoList = useSelector((state: RootState) => state);
+
   const { onOpenSidenav, brandText } = props;
   const [darkmode, setDarkmode] = React.useState(false);
 
+  const initalState: ProfileObj = {
+    username: "",
+    location: "",
+    website: "",
+    company: "",
+    phone: "",
+    birthday: "",
+    avatar: "",
+  }
+
+  const [profiles, setProfile] = useState<ProfileObj>(initalState);
+  const [reload, setReload] = useState(true);
+
+  useEffect(() => {
+    if (reload) {
+      getCurrentUser().then(
+
+        (res: any) => {
+          setProfile(res.data);
+          setReload(false);
+        });
+    }
+
+  }, [reload]);
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
       <div className="ml-[6px]">
@@ -101,7 +131,7 @@ const Navbar = (props: {
                 </div>
               </button>
 
-              
+
             </div>
           }
           classNames={"py-2 top-4 -left-[230px] md:-left-[440px] w-max"}
@@ -123,7 +153,7 @@ const Navbar = (props: {
                 }}
                 className="mb-2 aspect-video w-full rounded-lg"
               /> */}
-              
+
               <a
                 target="blank"
                 href="https://horizon-ui.com/docs-tailwind/docs/react/installation?ref=live-free-tailwind-react"
@@ -162,11 +192,26 @@ const Navbar = (props: {
           )}
         </div>
         {/* Profile & Dropdown */}
+        {/* {todoList.map((todo) => (
+          <div key={todo.id}>
+
+            {todo.description}
+            <img
+              className="h-10 w-10 rounded-full"
+              src={(todo.description) ? `http://localhost:8090/images/users/${todo.description}` : `http://localhost:8090/images/users/${profiles.avatar}`}
+              alt="Elon Musk"
+            />
+          </div>))
+        } */}
+        
         <Dropdown
+
+
+
           button={
             <img
               className="h-10 w-10 rounded-full"
-              src={avatar}
+              src={(todoList.avatar) ? `http://localhost:8090/images/users/${todoList.avatar}` : `http://localhost:8090/images/users/${profiles.avatar}`}
               alt="Elon Musk"
             />
           }
@@ -205,6 +250,7 @@ const Navbar = (props: {
           }
           classNames={"py-2 top-8 -left-[180px] w-max"}
         />
+        {/* {todoList.avatar} */}
       </div>
     </nav>
   );

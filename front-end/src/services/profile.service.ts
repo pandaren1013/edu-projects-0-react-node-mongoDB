@@ -14,8 +14,8 @@ export const getCurrentUser = () => {
 
   export const updateUser = (formData: any) => {
     const token = localStorage.getItem("auth_token");
-    console.log('token',token)
-    console.log('data',formData)
+    console.log('token1',token)
+    // console.log('data',formData)
     return axios({
       method: "post",
       url: API_URL + "update",

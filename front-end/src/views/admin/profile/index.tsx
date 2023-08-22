@@ -1,8 +1,19 @@
 import React, { useState, useRef, useEffect, SetStateAction } from 'react'
-import {updateUser, getCurrentUser} from "services/profile.service";
+import { updateUser, getCurrentUser } from "services/profile.service";
+// import Test from "./components/test_reduxtoolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "redux/store";
+import { addTodo, removeTodo, setTodoStatus } from "redux/todoSlice";
+import { setAvatar} from "redux/avatarSlice";
 
 const Profile = () => {
+    //React Hooks
+    const [todoDescription, setTodoDescription] = useState("");
 
+    //React Redux Hooks
+    const todoList = useSelector((state: RootState) => state);
+    const dispatch = useDispatch<AppDispatch>();
+    //avatar upload
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [dragging, setDragging] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
@@ -11,28 +22,22 @@ const Profile = () => {
 
     const initalState: ProfileObj = {
         username: "",
-        location:"",
-        website:"",
+        location: "",
+        website: "",
         company: "",
         phone: "",
         birthday: "",
-        avatar:"",
-        // _id?:""
+        avatar: "",
     }
-    const [modal, setModal] = useState(false);
-    const [newmodal, setNewModal] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState<ProfileObj>(initalState);
 
-    const [profiles, setProfile] = useState<ProfileObj[]>([]);
+    const [profiles, setProfile] = useState<ProfileObj>(initalState);
     const [reload, setReload] = useState(true);
-    const [inputs, setInputs] = useState<ProfileObj>(initalState);
 
     useEffect(() => {
         if (reload) {
             getCurrentUser().then(
-                
+
                 (res: any) => {
-                    console.log("sss",res.data);
                     setProfile(res.data);
                     setReload(false);
                 });
@@ -44,10 +49,9 @@ const Profile = () => {
         const name = event.currentTarget.name;
         const value = event.currentTarget.value;
         // console.log(name);
-        setInputs(values => ({ ...values, [name]: value }));
-        setSelectedProduct(values => ({ ...values, [name]: value }))
+        setProfile(values => ({ ...values, [name]: value }));
+        // setSelectedProduct(values => ({ ...values, [name]: value }))
     }
-    // const { newmodal, setReload, setNewModal, inputs, selectedProduct, handleChange, ...rest } = props;
 
     const onBtnClick = () => {
         /*Collecting node-element and performing click*/
@@ -84,47 +88,36 @@ const Profile = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        
-        const { username, location, website,company,phone,birthday,avatar } = inputs;
+
+
+        const { username, location, website, company, phone, birthday } = profiles;
+        if (profiles.username == "") { }
+        const formData = new FormData();
         if (selectedFile) {
-           
-           
-           const formData = new FormData();
+
+            //redux toolkit
+            
             formData.append('avatar', selectedFile);
-            formData.append('username', inputs.username);
-            formData.append('location', inputs.location);
-            formData.append('website', inputs.website);
-            formData.append('company', inputs.company);
-            formData.append('phone', inputs.phone);
-            formData.append('birthday', inputs.birthday);
-
-                
-            updateUser(formData).then(
-                (response) => {
-                    setReload(true);
-                    setNewModal(false);
-                },
-                (error) => {
-                    console.log('error')
-                }
-            )    
-
-            // console.log(formData);
-            // try {
-            //     const token=localStorage.getItem('auth_token');
-            //     const response = await fetch('http://localhost:8090/api/product/add', 
-            //     { method: 'POST', body: formData }, 
-            //         {   header:{
-            //                 'x-access-token':  token;
-            //             }
-            //         }).then(
-            //             (res)=>{console.log(res);}
-            //         );
-            // } catch (error) {
-            //     console.error(error);
-            // }
-
         }
+        formData.append('username', profiles.username);
+        formData.append('location', profiles.location);
+        formData.append('website', profiles.website);
+        formData.append('company', profiles.company);
+        formData.append('phone', profiles.phone);
+        formData.append('birthday', profiles.birthday);
+
+        updateUser(formData).then(
+            async(response) => {
+                alert("Success");
+                await dispatch(setAvatar(`user-${profiles.username}.jpeg`));
+                setReload(true);
+            },
+            (error) => {
+                console.log('error')
+            }
+        )
+
+
     };
 
     const validateFile = (file: File | null) => {
@@ -153,7 +146,7 @@ const Profile = () => {
                         onDragOver={handleDragOver}
                         onDrop={handleDrop}
                     >
-                        <header >Product Image Upload</header>
+                        <header >User Avatar Upload</header>
                         <div className='flex flex-col items-center'>
                             <input ref={iconRef} className="file-input" type="file" onChange={handleFileInput} name="file" hidden />
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-upload" viewBox="0 0 16 16" onClick={onBtnClick}>
@@ -169,7 +162,7 @@ const Profile = () => {
 
                         <section>
                             <div className="col-md-4 ">
-                                {preview ? <img src={preview} width={244} height={344} /> : ''}
+                                {preview ? <img src={preview} width={244} height={344} /> : <img src={`http://localhost:8090/images/users/${profiles.avatar}`} width={244} height={344} />}
                             </div>
                         </section>
 
@@ -192,29 +185,29 @@ const Profile = () => {
                         <div className="grid grid-cols-6 gap-6">
                             <div className="col-span-6 sm:col-span-3">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">UserName</label>
-                                <input type="text" name="username" id="username" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="User Name" />
+                                <input type="text" value={profiles.username} name="username" id="username" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleChange} placeholder="User Name" />
                             </div>
                             <div className="col-span-6 sm:col-span-3">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                                <input type="text" name="company" id="company" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
+                                <input type="text" value={profiles.company} name="company" id="company" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleChange} placeholder="" />
                             </div>
 
                             <div className="col-span-6 sm:col-span-3">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                                <input name="phone" id="phone" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. +(12)3456 789" />
+                                <input name="phone" value={profiles.phone} onChange={handleChange} id="phone" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. +(12)3456 789" />
                             </div>
                             <div className="col-span-6 sm:col-span-3">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">BirthDay</label>
-                                <input type="text" name="birthday" id="birthday" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1970-11-11" />
+                                <input type="text" value={profiles.birthday} name="birthday" onChange={handleChange} id="birthday" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1970-11-11" />
                             </div>
 
                             <div className="col-span-6 sm:col-span-3">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                                <input type="text" name="location" id="location" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
+                                <input type="text" value={profiles.location} name="location" onChange={handleChange} id="location" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                             </div>
                             <div className="col-span-6 sm:col-span-3">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website</label>
-                                <input type="text" name="website" id="website" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
+                                <input type="text" value={profiles.website} name="website" onChange={handleChange} id="website" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                             </div>
                         </div>
                     </div>
@@ -225,7 +218,7 @@ const Profile = () => {
                 </form>
             </div>
 
-
+            {/* <Test /> */}
         </div>
     );
 };

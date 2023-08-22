@@ -10,8 +10,8 @@ const UserSchema = new Schema({
     location:String,
     website:String,
     company:String,
-    phone:Number,
-    birthday:String,
+    phone:String,
+    birthday:{type:String},
     avatar:String ,
 
     createdAt: {
@@ -19,6 +19,7 @@ const UserSchema = new Schema({
       default: Date.now,
     },
     updatedAt: {
+      // default: Date.now,
       type: Date,
       // default: Date.now,
     },

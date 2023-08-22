@@ -3,7 +3,7 @@ const multer = require("multer");
 const sharp = require("sharp");
 const fs = require("fs");
 
-const controller = require("../../controllers/product.controller");
+const controller = require("../../controllers/profile.controller");
 
 const { authJwt, resizePhoto } = require("../../middlewares");
 var User = require("../../models/user.model");
@@ -42,19 +42,12 @@ router.get("/", authJwt.verifyToken, async (req, res) => {
     }
   });
 
-router.post(
-  "/add",
-  authJwt.verifyToken,
-  upload.single("image"),
-  resizePhoto,
-  controller.add
 
-);
 router.post(
     "/update",
     // console.log(req.body.name),
     authJwt.verifyToken,
-    upload.single("image"),
+    upload.single("avatar"),
     resizePhoto,
     controller.update
  

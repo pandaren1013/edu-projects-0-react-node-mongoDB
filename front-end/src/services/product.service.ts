@@ -34,8 +34,8 @@ export const createProduct = (formData: any) => {
 };
 export const updateProduct = (formData: any) => {
   const token = localStorage.getItem("auth_token");
-  console.log('token',token)
-  console.log('data',formData)
+  // console.log('token',token)
+  // console.log('data',formData)
   return axios({
     method: "post",
     url: API_URL + "update",
