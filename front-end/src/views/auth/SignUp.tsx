@@ -64,7 +64,6 @@ const SignUp: React.FC = () => {
         alert("Congratulations on your join!")
       },
       (error)=>{
-        console.log('error')
       }
     )
   }

@@ -15,18 +15,13 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { updateUser, getCurrentUser } from "services/profile.service";
 import { setUser } from "redux/userSlice";
 
-
-// import avatar from "assets/img/avatars/avatar7.png";
-
 const Navbar = (props: {
   onOpenSidenav: () => void;
   brandText: string;
   secondary?: boolean | string;
 }) => {
   const UserState = useAppSelector((state) => state.userReducer);
-
   const dispatch = useAppDispatch();
-
   const { onOpenSidenav, brandText } = props;
   const [darkmode, setDarkmode] = React.useState(false);
 
@@ -46,35 +41,14 @@ const Navbar = (props: {
   useEffect(() => {
     if (reload) {
       getCurrentUser().then(
-
         (res: any) => {
           setProfile(res.data);
           setReload(false);
           dispatch(setUser(res.data));
         });
     }
-
   }, [reload]);
 
-  const [imgSrc, setImgSrc] = useState(`logo512.png`);
-  const [fallback, setFallback] = useState(false);
-  // useEffect(() => {
-  //   if (UserState.user?.avatar) {
-  //     console.log('avatar changed: ' , UserState.user?.avatar);
-
-  //     setImgSrc(`http://localhost:8090/images/users/${UserState.user.avatar}`);
-  //   }
-  // }, [UserState.user?.avatar])
-
-const reloadSrc = (e: React.SyntheticEvent<HTMLImageElement, Event> ) => {
-  if (fallback) {
-    (e.target as HTMLImageElement).src = `http://localhost:8090/images/users/${profiles.avatar}`
-  } else {
-    (e.target as HTMLImageElement).src = imgSrc
-    setFallback(true)
-  }
-  console.log(e);
-}
 return (
   <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
     <div className="ml-[6px]">
@@ -142,7 +116,6 @@ return (
                 Mark all read
               </p>
             </div>
-
             <button className="flex w-full items-center">
               <div className="flex h-full w-[85px] items-center justify-center rounded-xl bg-gradient-to-b from-brandLinear to-brand-500 py-4 text-2xl text-white">
                 <BsArrowBarUp />
@@ -156,13 +129,10 @@ return (
                 </p>
               </div>
             </button>
-
-
           </div>
         }
         classNames={"py-2 top-4 -left-[230px] md:-left-[440px] w-max"}
       />
-      {/* start Horizon PRO */}
       <Dropdown
         button={
           <p className="cursor-pointer">
@@ -171,15 +141,6 @@ return (
         }
         children={
           <div className="flex w-[350px] flex-col gap-2 rounded-[20px] bg-white p-4 shadow-xl shadow-shadow-500 dark:!bg-navy-700 dark:text-white dark:shadow-none">
-            {/* <div
-                style={{
-                  backgroundImage: `url(${navbarimage})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
-                className="mb-2 aspect-video w-full rounded-lg"
-              /> */}
-
             <a
               target="blank"
               href="https://horizon-ui.com/docs-tailwind/docs/react/installation?ref=live-free-tailwind-react"
@@ -222,9 +183,7 @@ return (
           <img
             className="h-10 w-10 rounded-full"
             src={(UserState.user?.avatar) ? `http://localhost:8090/images/users/${UserState.user.avatar}` : profiles.avatar?`http://localhost:8090/images/users/${profiles.avatar}`:navbarimage}
-            // src={imgSrc}
             alt="noImg"
-            // onError={(e) => reloadSrc(e)}
           />
         }
         children={

@@ -6,7 +6,6 @@ import Profile from "views/admin/profile";
 import SignIn from "views/auth/SignIn";
 import SignUp from "views/auth/SignUp";
 
-
 // Icon Imports
 import {
   MdHome,

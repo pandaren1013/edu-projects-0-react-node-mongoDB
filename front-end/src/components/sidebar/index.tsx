@@ -8,9 +8,6 @@ import { Link, useLocation } from "react-router-dom";
 import SidebarCard from "components/sidebar/componentsrtl/SidebarCard";
 import routes from "routes";
 
-// const logout = () => {
-//   localStorage.removeItem("auth_token");
-// };
 
 const Sidebar = (props: {
   open: boolean;

@@ -1,9 +1,7 @@
 var express = require("express");
 const multer = require("multer");
-const sharp = require("sharp");
-const fs = require("fs");
 const controller = require("../../controllers/profile.controller");
-const { authJwt, avatar } = require("../../middlewares");
+const { authJwt } = require("../../middlewares");
 var User = require("../../models/user.model");
 const router = express.Router();
 const path = require("path");
@@ -13,7 +11,6 @@ const multerStorage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, `image-${Date.now()}` + path.extname(file.originalname));
-    //path.extname get the uploaded file extension
   },
 });
 
@@ -30,13 +27,14 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
+
 router.get("/", authJwt.verifyToken, async (req, res) => {
   try {
     const user = await User.findById(req.userId);
     if (!user) {
       return res.status(404).json({ msg: "There is no Profile" });
     }
-    res.status(200).json("successful operation",user);
+    res.status(200).json(user);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error");

@@ -20,7 +20,6 @@ export default function SignIn() {
   //React Redux Hooks
   const dispatch = useAppDispatch(); //set state in store through reducer
   const userState = useAppSelector(state => state.userReducer);
-  console.log(userState.user)
   const initalState: UserType = {
     username: "",
     password: "",
@@ -39,12 +38,9 @@ export default function SignIn() {
 
     login(username, password).then((data) => {
       dispatch(setUser(data));
-      console.log("user", data);
 
       localStorage.setItem("auth_token", data.accessToken);
       localStorage.setItem("userId", data.id);
-      // localStorage.setItem("avatar", data.avatar);
-      // console.log(localStorage.getItem('userId'));
       auth.signin(data.accessToken, () => {
         navigate('/admin', { replace: true });
       });

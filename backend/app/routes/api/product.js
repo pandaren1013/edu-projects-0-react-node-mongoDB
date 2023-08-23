@@ -1,9 +1,8 @@
 var express = require("express");
 const multer = require("multer");
 const sharp = require("sharp");
-const fs = require("fs");
 const controller = require("../../controllers/product.controller");
-const { authJwt, resizePhoto } = require("../../middlewares");
+const { authJwt } = require("../../middlewares");
 var Product = require("../../models/product.model");
 const router = express.Router();
 const path = require("path");
@@ -35,7 +34,7 @@ router.get("/", authJwt.verifyToken, async (req, res) => {
     if (!product) {
       return res.status(404).json({ msg: "There is no Product" });
     }
-    res.status(200).json("successful operation", product);
+    res.status(200).json( product);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error");
@@ -59,7 +58,7 @@ router.delete("/:id", authJwt.verifyToken, async (req, res) => {
   try {
     const productFound = await Product.findByIdAndDelete(req.params.id);
     if (!productFound) return res.status(204).json();
-    return res.status(200).json("successful operation",productFound);
+    return res.status(200).json({msg:"successful operation",productFound});
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error");

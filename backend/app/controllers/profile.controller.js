@@ -19,7 +19,7 @@ exports.update = async (req, res) => {
         },
         { new: true }
       );
-      res.status(200).json("successful operation",user);
+      res.status(200).json({msg:"successful operation",user});
     } else {
       const user = await User.findByIdAndUpdate(
         req.userId,
@@ -35,10 +35,10 @@ exports.update = async (req, res) => {
         { new: true }
       );
       await user.save();
-      res.status(200).json("successful operation",user);
+      res.status(200).json({msg:"successful operation",user});
     }
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message); 
     res.status(500).send("Internal Server Error");
   }
 };

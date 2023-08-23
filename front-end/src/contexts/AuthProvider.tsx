@@ -20,7 +20,6 @@ const authProvider = {
 const AuthContext = React.createContext<AuthContextType>(null!);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    // console.log("auth_token",localStorage.getItem("auth_token"));
     let [authToken, setAuthToken] = React.useState<any>(localStorage.getItem("auth_token")? localStorage.getItem("auth_token") : '');
 
     let signin = (newToken: string, callback: VoidFunction) => {
@@ -54,7 +53,6 @@ export function useAuth() {
 export const RequireAuth = ({children} : {children: JSX.Element}) => {
     let auth = useAuth();
     let location = useLocation();
-    console.log(`token : ${auth.authToken}`);
     if (!auth.authToken) {
         return <Navigate to="/auth" state={{ from: location }} replace />;
     }

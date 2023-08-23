@@ -27,8 +27,6 @@ export const login = (username: string, password: string) => {
 
 export const updateUser = (formData: any) => {
   const token = localStorage.getItem("auth_token");
-  console.log('token',token)
-  console.log('data',formData)
   return axios({
     method: "post",
     url: API_URL + "update",
@@ -37,11 +35,8 @@ export const updateUser = (formData: any) => {
   })
     .then(function (response) {
       //handle success
-      console.log(response);
     })
     .catch(function (response) {
-      //handle error
-      console.log(response);
     });
 };
 
@@ -49,10 +44,4 @@ export const logout = () => {
   localStorage.removeItem("user");
 };
 
-// export const getCurrentUser = () => {
-//   const userStr = localStorage.getItem("userId");
-//   if (userStr) return JSON.parse(userStr);
-
-//   return null;
-// };
 

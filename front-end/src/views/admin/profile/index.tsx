@@ -2,10 +2,8 @@ import React, { useState, useRef, useEffect, SetStateAction } from 'react'
 import { updateUser, getCurrentUser } from "services/profile.service";
 import navbarimage from "assets/img/layout/Navbar.png";
 
-// import Test from "./components/test_reduxtoolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "redux/store";
-import { addTodo, removeTodo, setTodoStatus } from "redux/todoSlice";
 import { setUser } from "redux/userSlice";
 
 const Profile = () => {
@@ -25,7 +23,7 @@ const Profile = () => {
     const initalState: ProfileObj | null = {
         username: "",
         location: ``,
-        // website: " ",
+        website: " ",
         company: "",
         phone: "",
         birthday: "",
@@ -50,7 +48,6 @@ const Profile = () => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.currentTarget.name;
         const value = event.currentTarget.value;
-        // console.log(name);
         setProfile(values => ({ ...values, [name]: value }));
         // setSelectedProduct(values => ({ ...values, [name]: value }))
     }
@@ -77,9 +74,7 @@ const Profile = () => {
         event.preventDefault();
         setDragging(false);
         const file = event.dataTransfer.files[0];
-        console.log(URL.createObjectURL(file))
         setPreview(URL.createObjectURL(file))
-        console.log(file);
         validateFile(file);
     };
 
@@ -116,13 +111,11 @@ const Profile = () => {
                 dispatch(setUser(res.data));//redux toolkit
             },
             (error) => {
-                console.log('error')
             }
         )
     };
 
     const validateFile = (file: File | null) => {
-        console.log(file)
         if (file) {
             if (!file.type.startsWith('image/')) {
                 setError('Please select an image file');
@@ -154,10 +147,6 @@ const Profile = () => {
                                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
                                 <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
                             </svg>
-                            {/* <p>Click here!</p> */}
-                            {/* <div className="mt-4">
-                                                        <button type='submit' className="border bg-green-500 rounded-lg text-white p-2">Upload</button>
-                                                    </div> */}
                         </div>
                         {error}
 
@@ -218,8 +207,6 @@ const Profile = () => {
                     </div>
                 </form>
             </div>
-
-            {/* <Test /> */}
         </div>
     );
 };

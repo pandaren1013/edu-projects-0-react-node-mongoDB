@@ -53,7 +53,6 @@ db.mongoose
 
 // routes
 require("./app/routes/auth.routes")(app);
-require("./app/routes/user.routes")(app);
 app.use('/api',indexRouter);
 
 // set port, listen for requests

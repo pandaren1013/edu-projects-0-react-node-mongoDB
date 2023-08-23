@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { Todo } from "../models/Todo";
 type UserStateType = {
     user: ProfileObj | null,
 }
@@ -20,7 +19,6 @@ const userSlice = createSlice({
   initialState ,
   reducers: {
     setUser: (state, action) => {
-        // console.log(action.payload);
       state.user = action.payload // mutate the state all you want with immer
     },
   },

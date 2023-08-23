@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import * as AuthService from "services/auth.service";
-import EventBus from "common/EventBus";
 
 import Footer from "components/footer/FooterAuthDefault";
 import authImg from "assets/img/auth/auth.png";
@@ -8,37 +6,9 @@ import { Link, Routes, Route, Navigate } from "react-router-dom";
 import routes from "routes";
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
 
-//dark
-import { DarkModeSwitch } from "react-toggle-dark-mode";
-import useDarkSide from "../../hooks/useDarkSide";
-
 export default function Auth() {
-  const [showModeratorBoard, setShowModeratorBoard] = useState<boolean>(false);
-  const [showAdminBoard, setShowAdminBoard] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser | undefined>(undefined);
 
-//   useEffect(() => {
-//     const user = AuthService.getCurrentUser();
-
-//     if (user) {
-//       setCurrentUser(user);
-//       setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-//       setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
-//     }
-
-//     EventBus.on("logout", logOut);
-
-//     return () => {
-//       EventBus.remove("logout", logOut);
-//     };
-//   }, []);
-
-//   const logOut = () => {
-//     AuthService.logout();
-//     setShowModeratorBoard(false);
-//     setShowAdminBoard(false);
-//     setCurrentUser(undefined);
-//   };
 
     const getRoutes = (routes: RoutesType[]): any => {
         return routes.map((prop, key) => {
@@ -53,18 +23,7 @@ export default function Auth() {
     };
     document.documentElement.dir = "ltr";
 
-    //dark
-    //     const [colorTheme, setTheme] = useDarkSide();
-    //   const [darkSide, setDarkSide] = useState(
-    //     colorTheme === "light" ? true : false
-    //   );
-
-    //   const toggleDarkMode = (checked:any) => {
-    //     setTheme(colorTheme);
-    //     setDarkSide(checked);
-    //   };
-
-    return (
+       return (
         <div>
             <div className=" !bg-white dark:!bg-navy-900">
                 <FixedPlugin />
@@ -94,13 +53,6 @@ export default function Auth() {
                                             Back to Dashboard
                                         </p>
     
-                                        {/* //darkicon 
-                                        <DarkModeSwitch
-                                                style={{marginLeft:"2rem"}}
-                                                checked={darkSide}
-                                                onChange={toggleDarkMode}
-                                                size={24}
-                                                /> */}
                                     </div>
                                 </Link>
                                 )}

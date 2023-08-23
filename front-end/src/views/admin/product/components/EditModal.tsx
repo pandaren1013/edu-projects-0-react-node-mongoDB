@@ -1,7 +1,6 @@
 import React, { useState, useRef, Dispatch, SetStateAction } from 'react'
 import PureModal from 'react-pure-modal';
 import InputField from "components/fields/InputField";
-import Up from "./Imgupload";
 import {updateProduct} from "services/product.service";
 
 
@@ -44,9 +43,7 @@ function EditModal(props: {
         event.preventDefault();
         setDragging(false);
         const file = event.dataTransfer.files[0];
-        console.log(URL.createObjectURL(file))
         setPreview(URL.createObjectURL(file))
-        console.log(file);
         validateFile(file);
     };
 
@@ -76,30 +73,11 @@ function EditModal(props: {
                     setModal(false);
                 },
                 (error) => {
-                    console.log('error')
                 }
             ) 
-        // else{
-        //     const formData = new FormData();
-        //     formData.append('name', selectedProduct.name);
-        //     formData.append('description', selectedProduct.description);
-        //     formData.append('price', selectedProduct.price);
-        //     formData.append('_id', selectedProduct._id);
-        //     updateProduct(formData).then(
-        //         (response) => {
-        //             setReload(true);
-        //             setModal(false);
-        //         },
-        //         (error) => {
-        //             console.log('error')
-        //         }
-        //     )    
-
-        // }
     };
 
     const validateFile = (file: File | null) => {
-        console.log(file)
         if (file) {
             if (!file.type.startsWith('image/')) {
                 setError('Please select an image file');

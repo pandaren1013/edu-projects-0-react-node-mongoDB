@@ -1,17 +1,8 @@
 import React, { useState, useRef, Dispatch, SetStateAction } from 'react'
 import PureModal from 'react-pure-modal';
 import InputField from "components/fields/InputField";
-import Up from "./Imgupload";
 import {createProduct} from "services/product.service";
 
-// interface ModalProps {setSomeState: Dispatch<ProductObj>}
-// type ButtonProps = {
-//     handleChange: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-//   };
-
-//   function Container({handleChange}: ButtonProps) {
-//     return <div onClick={handleClick}>Hello world</div>;
-//   }
 
 function NewModal(props: {
     newmodal: boolean;
@@ -53,9 +44,7 @@ function NewModal(props: {
         event.preventDefault();
         setDragging(false);
         const file = event.dataTransfer.files[0];
-        console.log(URL.createObjectURL(file))
         setPreview(URL.createObjectURL(file))
-        console.log(file);
         validateFile(file);
     };
 
@@ -84,30 +73,12 @@ function NewModal(props: {
                     setNewModal(false);
                 },
                 (error) => {
-                    console.log('error')
                 }
             )    
-
-            // console.log(formData);
-            // try {
-            //     const token=localStorage.getItem('auth_token');
-            //     const response = await fetch('http://localhost:8090/api/product/add', 
-            //     { method: 'POST', body: formData }, 
-            //         {   header:{
-            //                 'x-access-token':  token;
-            //             }
-            //         }).then(
-            //             (res)=>{console.log(res);}
-            //         );
-            // } catch (error) {
-            //     console.error(error);
-            // }
-
         }
     };
 
     const validateFile = (file: File | null) => {
-        console.log(file)
         if (file) {
             if (!file.type.startsWith('image/')) {
                 setError('Please select an image file');

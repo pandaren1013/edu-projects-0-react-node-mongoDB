@@ -10,7 +10,7 @@ exports.add = (req, res) => {
     owner: req.userId,
   });
   product.save();
-  res.status(200).json("successful operation", product);
+  res.status(200).json({msg:"successful operation", product});
 };
 
 exports.update = async (req, res) => {
@@ -23,7 +23,7 @@ exports.update = async (req, res) => {
         price: req.body.price,
       });
       product.save();
-      res.status(200).json("successful operation", product);
+      res.status(200).json({msg:"successful operation", product});
     } else {
       const product = await Product.findByIdAndUpdate(req.body._id, {
         name: req.body.name,
@@ -31,7 +31,7 @@ exports.update = async (req, res) => {
         price: req.body.price,
       });
       product.save();
-      res.status(200).json("successful operation", product);
+      res.status(200).json({msg:"successful operation", product});
     }
   } catch (err) {
     console.error(err.message);
