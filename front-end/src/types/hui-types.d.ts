@@ -27,11 +27,11 @@ declare global{
     interface ProfileObj  {
         username: string;
         location:string;
-        website:string;
-        company: string;
-        phone: string;
-        birthday: string ;
-        avatar:string;
+        website?:string ;
+        company: any | null;
+        phone: any | null;
+        birthday: any | null ;
+        avatar:any | null;
         // owner: string;
         // _id: string;
     };

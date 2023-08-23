@@ -22,12 +22,4 @@ export const getCurrentUser = () => {
       data: formData,
       headers: { "x-access-token": token },
     })
-      .then(function (response) {
-        //handle success
-        console.log(response);
-      })
-      .catch(function (response) {
-        //handle error
-        console.log(response);
-      });
   };

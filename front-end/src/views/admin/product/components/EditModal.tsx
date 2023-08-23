@@ -55,7 +55,7 @@ function EditModal(props: {
         validateFile(file);
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
         const { name, description, price } = selectedProduct;
@@ -117,8 +117,8 @@ function EditModal(props: {
             <PureModal
                 className='!w-[500px]'
                 isOpen={modal}
-                closeButton="close"
-                closeButtonPosition="bottom"
+                // closeButton="close"
+                // closeButtonPosition="bottom"
                 onClose={() => {
                     setModal(false);
                     return true;
@@ -126,17 +126,13 @@ function EditModal(props: {
             >
                 <div className="relative w-full max-w-4xl max-h-full">
                     {/* <!-- Modal content --> */}
-                    <form onSubmit={handleSubmit} action="#" className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <form onSubmit={handleSubmit} action="#" className="relative bg-white rounded-lg shadow dark:bg-green-700">
                         {/* <!-- Modal header --> */}
                         <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                                 Update Product
                             </h3>
-                            <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editUserModal">
-                                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                            </button>
+                           
                         </div>
                         {/* <!-- Modal body --> */}
                         <div className="p-6 space-x-16 flex flex-col grid-cols-12 sm:flex-row items-center justify-center">

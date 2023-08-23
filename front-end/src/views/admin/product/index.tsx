@@ -182,7 +182,7 @@ const Product = () => {
                 </header>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-white">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
                                     <span>Image</span>
@@ -207,8 +207,8 @@ const Product = () => {
                         <tbody>
                             {products.map((product, key) => (
 
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={key}>
-                                    <td className="w-28 p-4">
+                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900" key={key}>
+                                    <td className="w-10 p-2">
                                         <img src={`http://localhost:8090/images/users/${product.image}`} alt="noImg" />
                                     </td>
                                     <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
@@ -224,7 +224,7 @@ const Product = () => {
                                         {/* if({product.owner}!=localStorage.getItem(userId)){
                                             <button onClick={() => product._id && handleUpdate(product)} type="button" data-modal-show="editUserModal" disabled className="disabled:opacity-50 font-bold text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                                         } else { */}
-                                            <button onClick={() => product._id && handleUpdate(product)} type="button" data-modal-show="editUserModal" className=" font-bold text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
+                                            <button onClick={() => product._id && handleUpdate(product)} type="button" data-modal-show="editUserModal" className="text-md font-bold text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                                         {/* } */}
 
                                     </td>

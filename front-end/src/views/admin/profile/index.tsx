@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect, SetStateAction } from 'react'
 import { updateUser, getCurrentUser } from "services/profile.service";
+import navbarimage from "assets/img/layout/Navbar.png";
+
 // import Test from "./components/test_reduxtoolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "redux/store";
 import { addTodo, removeTodo, setTodoStatus } from "redux/todoSlice";
-import { setAvatar} from "redux/avatarSlice";
+import { setUser } from "redux/userSlice";
 
 const Profile = () => {
     //React Hooks
@@ -20,10 +22,10 @@ const Profile = () => {
     const iconRef = useRef<HTMLInputElement>(null!);
     const [preview, setPreview] = useState('')
 
-    const initalState: ProfileObj = {
+    const initalState: ProfileObj | null = {
         username: "",
-        location: "",
-        website: "",
+        location: ``,
+        // website: " ",
         company: "",
         phone: "",
         birthday: "",
@@ -86,31 +88,37 @@ const Profile = () => {
         validateFile(file);
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
 
         const { username, location, website, company, phone, birthday } = profiles;
         if (profiles.username == "") { }
         const formData = new FormData();
         if (selectedFile) {
-
-            //redux toolkit
-            
             formData.append('avatar', selectedFile);
         }
+
+        if (profiles.location) {
+            formData.append('location', profiles.location);
+        }if (profiles.website) {
+            formData.append('website', profiles.website);
+        }if (profiles.company) {
+            formData.append('company', profiles.company);
+        }if (profiles.phone) {
+            formData.append('phone', profiles.phone);
+        }if (profiles.birthday) {
+            formData.append('birthday', profiles.birthday);
+        }
         formData.append('username', profiles.username);
-        formData.append('location', profiles.location);
-        formData.append('website', profiles.website);
-        formData.append('company', profiles.company);
-        formData.append('phone', profiles.phone);
-        formData.append('birthday', profiles.birthday);
+        // formData.append('location', profiles.location);
+        // formData.append('company', profiles.company);
+        // formData.append('phone', profiles.phone);
+        // formData.append('birthday', profiles.birthday);
 
         updateUser(formData).then(
-            async(response) => {
-                alert("Success");
-                await dispatch(setAvatar(`user-${profiles.username}.jpeg`));
-                setReload(true);
+            (res) => {
+                alert("Success!")
+                dispatch(setUser(res.data));//redux toolkit
             },
             (error) => {
                 console.log('error')
@@ -125,7 +133,7 @@ const Profile = () => {
         if (file) {
             if (!file.type.startsWith('image/')) {
                 setError('Please select an image file');
-            } else if (file.size > 1000000) {
+            } else if (file.size > 10000000) {
                 setError('File size is too large');
             } else {
                 setSelectedFile(file);
@@ -146,7 +154,7 @@ const Profile = () => {
                         onDragOver={handleDragOver}
                         onDrop={handleDrop}
                     >
-                        <header >User Avatar Upload</header>
+                        <header className='text-green-600 font-bold'>User Avatar Upload</header>
                         <div className='flex flex-col items-center'>
                             <input ref={iconRef} className="file-input" type="file" onChange={handleFileInput} name="file" hidden />
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-upload" viewBox="0 0 16 16" onClick={onBtnClick}>
@@ -162,7 +170,7 @@ const Profile = () => {
 
                         <section>
                             <div className="col-md-4 ">
-                                {preview ? <img src={preview} width={244} height={344} /> : <img src={`http://localhost:8090/images/users/${profiles.avatar}`} width={244} height={344} />}
+                                {preview ? <img src={preview} width={244} height={344} /> : profiles.avatar ? <img src={`http://localhost:8090/images/users/${profiles.avatar}`} width={244} height={344} /> : <img src={navbarimage} width={244} height={344} />}
                             </div>
                         </section>
 
@@ -185,7 +193,7 @@ const Profile = () => {
                         <div className="grid grid-cols-6 gap-6">
                             <div className="col-span-6 sm:col-span-3">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">UserName</label>
-                                <input type="text" value={profiles.username} name="username" id="username" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleChange} placeholder="User Name" />
+                                <input type="text" value={profiles.username} name="username" id="username" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleChange} placeholder="User Name" disabled />
                             </div>
                             <div className="col-span-6 sm:col-span-3">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>

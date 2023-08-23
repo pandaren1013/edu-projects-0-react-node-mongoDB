@@ -4,16 +4,24 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { UserType } from "types/user";
 import { useAuth } from '../../contexts/AuthProvider';
 
-
 import InputField from "components/fields/InputField";
 import { FcGoogle } from "react-icons/fc";
 import Checkbox from "components/checkbox";
 
-export default function SignIn() {
-  let navigate:NavigateFunction=useNavigate();
-  let auth = useAuth();
+//Redux Toolkit
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { setUser } from "redux/userSlice";
 
-  const initalState : UserType = {
+
+
+export default function SignIn() {
+  let navigate: NavigateFunction = useNavigate();
+  let auth = useAuth();
+  //React Redux Hooks
+  const dispatch = useAppDispatch(); //set state in store through reducer
+  const userState = useAppSelector(state => state.userReducer);
+  console.log(userState.user)
+  const initalState: UserType = {
     username: "",
     password: "",
   }
@@ -27,37 +35,29 @@ export default function SignIn() {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    // alert(inputs);
-    const { username, email, password}= inputs;
+    const { username, email, password } = inputs;
 
-    login(username, password).then(
-      (data:any) => {
-        console.log(data);
-        localStorage.setItem("auth_token", data.accessToken);
-        localStorage.setItem("userId", data.id);
-        // localStorage.setItem("avatar", data.avatar);
-        // console.log(localStorage.getItem('userId'));
-        auth.signin(data.accessToken, () => {
-          console.log('log here');
-          navigate('/admin', {replace: true});
+    login(username, password).then((data) => {
+      dispatch(setUser(data));
+      console.log("user", data);
+
+      localStorage.setItem("auth_token", data.accessToken);
+      localStorage.setItem("userId", data.id);
+      // localStorage.setItem("avatar", data.avatar);
+      // console.log(localStorage.getItem('userId'));
+      auth.signin(data.accessToken, () => {
+        navigate('/admin', { replace: true });
       });
-
-        // navigate("/admin");
-        // window.location.reload();
-      },
-      (error) => {
-        console.log('error')
-      }
-    )
+    }).catch((err) => {
+      alert(err);
+    })
   }
-  // console.log('token',localStorage.getItem("auth_token"))
-    console.log("auth_token",localStorage.getItem("auth_token"));
-    
-    useEffect(() => {
-      // localStorage.clear;
-      localStorage.removeItem("auth_token");
-    }, []);
-    
+
+  useEffect(() => {
+    // localStorage.clear;
+    localStorage.removeItem("auth_token");
+  }, []);
+
 
   return (
     <div className="mt-16 mb-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
@@ -85,52 +85,52 @@ export default function SignIn() {
 
         <form onSubmit={handleSubmit}>
 
-        {/* Email */}
-        <InputField
-          name="username"
-          variant="auth"
-          extra="mb-3"
-          label="Username*"
-          placeholder="Input Your Name,Please!"
-          id="username"
-          type="text"
-          value={inputs.username || ""}
-          onChange={handleChange}
+          {/* Email */}
+          <InputField
+            name="username"
+            variant="auth"
+            extra="mb-3"
+            label="Username*"
+            placeholder="Input Your Name,Please!"
+            id="username"
+            type="text"
+            value={inputs.username || ""}
+            onChange={handleChange}
 
 
-        />
+          />
 
-        {/* Password */}
-        <InputField
-          name="password"
-          variant="auth"
-          extra="mb-3"
-          label="Password*"
-          placeholder="Min. 8 characters"
-          id="password"
-          type="password"
-          value={inputs.password || ""}
-          onChange={handleChange}
-          
-        />
-        {/* Checkbox */}
-        <div className="mb-4 flex items-center justify-between px-2">
-          <div className="flex items-center">
-            <Checkbox />
-            <p className="ml-2 text-sm font-medium text-navy-700 dark:text-white">
-              Keep me logged In
-            </p>
+          {/* Password */}
+          <InputField
+            name="password"
+            variant="auth"
+            extra="mb-3"
+            label="Password*"
+            placeholder="Min. 8 characters"
+            id="password"
+            type="password"
+            value={inputs.password || ""}
+            onChange={handleChange}
+
+          />
+          {/* Checkbox */}
+          <div className="mb-4 flex items-center justify-between px-2">
+            <div className="flex items-center">
+              <Checkbox />
+              <p className="ml-2 text-sm font-medium text-navy-700 dark:text-white">
+                Keep me logged In
+              </p>
+            </div>
+            <a
+              className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
+              href=" "
+            >
+              Forgot Password?
+            </a>
           </div>
-          <a
-            className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
-            href=" "
-          >
-            Forgot Password?
-          </a>
-        </div>
-        <button type="submit" className="linear mt-2 w-full rounded-xl bg-brand-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
-          Sign In
-        </button>
+          <button type="submit" className="linear mt-2 w-full rounded-xl bg-brand-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
+            Sign In
+          </button>
         </form>
         <div className="mt-4">
           <span className=" text-sm font-medium text-navy-700 dark:text-gray-600">

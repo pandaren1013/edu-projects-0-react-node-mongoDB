@@ -13,9 +13,9 @@ exports.update = async (req, res) => {
       birthday: req.body.birthday,
       avatar: req.file.filename,
       updatedAt: Date.now(),
-    });
+    }, { new: true});
     // console.log(req.body);
-    user.save();
+    // await user.save({validateBeforeSave: true});
     res.json(user);
   } else {
     const user = await User.findByIdAndUpdate(req.userId, {
@@ -28,9 +28,9 @@ exports.update = async (req, res) => {
       updatedAt: Date.now(),
 
       // avatar: req.file.filename,
-    });
+    }, { new : true});
     // console.log(req.body);
-    user.save();
+    await user.save();
     res.json(user);
   }
 };
