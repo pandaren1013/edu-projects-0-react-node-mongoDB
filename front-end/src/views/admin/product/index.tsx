@@ -88,7 +88,7 @@ const Product = () => {
 
     }
     const productAdd = () => {
-        // setReload(false);
+        setReload(true);
         setNewModal(true);
         // setSelectedProduct(null);
     }

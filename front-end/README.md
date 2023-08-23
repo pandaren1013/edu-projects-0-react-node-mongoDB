@@ -1,46 +1,55 @@
-# Getting Started with Create React App
+# React, Typescript, Tailwindcss, Redux Toolkit
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a [React](https://reactjs.org) + [TypeScript](https://www.typescriptlang.org/) + [Tailwind](https://tailwindcss.com/) + [RTK](https://redux-toolkit.js.org/).
 
-## Available Scripts
+## What's inside?
 
-In the project directory, you can run:
+-   [ReactJS](https://reactjs.org)
+-   [TypeScript](https://www.typescriptlang.org)
+-   [Tailwind](https://tailwindcss.com/)
+-   [RTK](https://redux-toolkit.js.org/)
 
-### `npm start`
+## Getting started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Clone the repository.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+    ```bash
+    git clone https://github.com/pandaren1013/edu-projects-0-react-node-mongoDB.git
+    ```
 
-### `npm test`
+2. Access the project.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    ```bash
+    cd edu-projects-0-react-node-mongoDB
+    ```
 
-### `npm run build`
+3. Make it your own repository
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```bash
+    rm -rf .git
+    git init
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Install dependencies.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```bash
+    npm i
+    ```
 
-### `npm run eject`
+5. Start the development server.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    ```bash
+    npm start
+    ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+6. Build for production.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    ```bash
+    npm run build
+    ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+7. Test your production build.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ```bash
+    npm run serve
+    ```

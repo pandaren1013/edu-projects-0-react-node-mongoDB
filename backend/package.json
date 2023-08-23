@@ -1,9 +1,11 @@
 {
-  "name": "node-js-jwt-auth-mongodb",
+  "name": "node-js-swagger jwt-auth-mongodb",
   "version": "1.0.0",
-  "description": "Node.js + MongoDB: JWT Authentication & Authorization",
+  "description": "Node.js + MongoDB: Products Management system",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon ./server.js localhost 8090",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -13,7 +15,7 @@
     "authentication",
     "mongodb"
   ],
-  "author": "bezkoder",
+  "author": "jennifer",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,6 +25,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.11.2",
     "multer": "^1.4.5-lts.1",
-    "sharp": "^0.32.5"
+    "sharp": "^0.32.5",
+    "swagger-tools": "^0.10.4",
+    "swagger-ui-express": "^5.0.0"
   }
 }

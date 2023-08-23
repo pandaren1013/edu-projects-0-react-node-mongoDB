@@ -1,0 +1,407 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a simple Express API project to manage Products",
+    "version": "1.0.0",
+    "title": "Tasks API",
+    "contact": {
+      "email": "Pandaren1013@gmail.com"
+    },
+    "license": {
+      "name": "",
+      "url": ""
+    }
+  },
+  "schemes": ["http"],
+  "host": "localhost:8090",
+  "basePath": "/api",
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "summary": "Sign Up",
+        "description": "Sign Up",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "user object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/models/User"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was registered successfully!",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/models/User"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": ""
+            }
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "summary": "Sign In",
+        "description": "Sign In",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "user object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/models/User"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/models/User"
+              }
+            }
+          },
+          
+          "401": {
+            "description": "Invalid Password!",
+            "schema": {
+              "$ref": "#/models/User"
+            }
+          },
+          
+          "404": {
+            "description": "User Not found",
+            "schema": {
+              "$ref": "#/models/User"
+            }
+          },
+          
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": ""
+            }
+          }
+        }
+      }
+    },
+
+    "/product": {
+      "get": {
+        "summary": "Get all the products",
+        "description": "Get all the products",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/models/Product"
+              }
+            }
+          },
+          "404": {
+            "description": "There is no Product",
+            "schema": {
+              "$ref": "#/models/Product"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": ""
+            }
+          }
+        }
+      }
+    },
+    "/products/add": {
+      "post": {
+        "summary": "Save the Products",
+        "description": "Save the Products",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "product object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/models/Product"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/models/Product"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/update": {
+      "put": {
+        "summary": "Update the products",
+        "description": "Update the products",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "body",
+            "description": "product id that needs to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "product object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/models/Product"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/models/Product"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": ""
+            }
+          }
+        }
+      }
+    },
+    "/product/{id}": {
+      "delete": {
+        "summary": "Delete the product",
+        "description": "Delete the product",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "product id that needs to be deleted",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/models/Product"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": ""
+            }
+          }
+        }
+      }
+    },
+
+    "/profile": {
+      "get": {
+        "summary": "Get profile of currentUser",
+        "description": "Get profile of currentUser",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/models/Profile"
+              }
+            }
+          },
+          "404": {
+            "description": "There is no Profile",
+            "schema": {
+              "$ref": "There is no Profile"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": ""
+            }
+          }
+        }
+      }
+    },
+    "/profile/update": {
+      "put": {
+        "summary": "Save Profile",
+        "description": "Save Profile",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "profile object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/models/Profile"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/models/Profile"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": ""
+            }
+          }
+        }
+      }
+    }
+  },
+  "models": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "birthday": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "Date"
+        },
+        "updatedAt": {
+          "type": "Date"
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "Schema.Types.ObjectId",
+          "ref": "User",
+          "required": true
+        }
+      }
+    }
+  }
+}

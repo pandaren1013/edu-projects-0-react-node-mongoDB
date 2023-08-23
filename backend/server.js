@@ -1,7 +1,12 @@
 const express = require("express");
+var swaggerTools = require("swagger-tools");
+const fs = require('fs');
 const cors = require("cors");
 const dbConfig = require("./app/config/db.config");
 var indexRouter=require('./app/routes/api');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+const customCss = fs.readFileSync((process.cwd()+"/swagger.css"), 'utf8');
 
 const app = express();
 
@@ -18,6 +23,10 @@ console.log(`${__dirname}/public`);
 app.use(express.static(`${__dirname}/public`));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
+//NodeJS API Project for Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {customCss}));
+
 app.use(function(req, res, next) {
   res.header(
     "Access-Control-Allow-Headers",
@@ -41,11 +50,6 @@ db.mongoose
     console.error("Connection error", err);
     process.exit();
   });
-
-// simple route
-// app.get("/", (req, res) => {
-//   res.json({ message: "Welcome to jennifer application." });
-// });
 
 // routes
 require("./app/routes/auth.routes")(app);

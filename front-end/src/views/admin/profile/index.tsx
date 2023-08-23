@@ -110,11 +110,6 @@ const Profile = () => {
             formData.append('birthday', profiles.birthday);
         }
         formData.append('username', profiles.username);
-        // formData.append('location', profiles.location);
-        // formData.append('company', profiles.company);
-        // formData.append('phone', profiles.phone);
-        // formData.append('birthday', profiles.birthday);
-
         updateUser(formData).then(
             (res) => {
                 alert("Success!")
@@ -124,8 +119,6 @@ const Profile = () => {
                 console.log('error')
             }
         )
-
-
     };
 
     const validateFile = (file: File | null) => {

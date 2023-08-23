@@ -15,7 +15,7 @@ exports.signup = (req, res) => {
 
   user.save((err, user) => {
     if (err) {
-      res.status(500).send({ message: err });
+      res.status(500).send({ message: "Internal Server Error" });
       return;
     }
 

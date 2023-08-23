@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8090/api/profile/";
 
-
 export const getCurrentUser = () => {
     const token = localStorage.getItem("auth_token");
     return axios.get(API_URL + "/", {
@@ -14,8 +13,6 @@ export const getCurrentUser = () => {
 
   export const updateUser = (formData: any) => {
     const token = localStorage.getItem("auth_token");
-    console.log('token1',token)
-    // console.log('data',formData)
     return axios({
       method: "post",
       url: API_URL + "update",
